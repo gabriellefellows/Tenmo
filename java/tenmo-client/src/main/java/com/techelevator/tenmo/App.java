@@ -1,5 +1,7 @@
 package com.techelevator.tenmo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import org.springframework.http.ResponseEntity;
@@ -7,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.techelevator.application.models.accounts;
 import com.techelevator.tenmo.models.AuthenticatedUser;
+import com.techelevator.tenmo.models.User;
 import com.techelevator.tenmo.models.UserCredentials;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.AuthenticationServiceException;
@@ -80,7 +83,6 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 		int balanceChoice = scanner.nextInt();
 		scanner.nextLine(); //clear the keyboard buffer to remove enter
 		accounts account = apiCall.getForObject(API_BASE_URL + "accounts/" + balanceChoice, accounts.class);
-		
 		System.out.println("Your current balance is: " + account.getBalance());
 	}
 
@@ -95,8 +97,12 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 	}
 
 	private void sendBucks() {
-		// TODO Auto-generated method stub
+		List<User> users = new ArrayList<>();
+		RestTemplate restTemplate = new RestTemplate();
 		
+		ResponseEntity<User> entity = restTemplate.getForEntity(API_BASE_URL + "users/", User.class);
+		
+		System.out.println(entity.getBody());
 	}
 
 	private void requestBucks() {

@@ -6,8 +6,7 @@ public interface accountsDAO {
 	public accounts getAcctBalanceByID(int user_id);
 	
 	
-	//method to send money
-	public accounts sendMoney();
+	
 	
 	
 	

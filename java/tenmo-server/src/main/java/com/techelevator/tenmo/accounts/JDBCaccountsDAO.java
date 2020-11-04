@@ -28,11 +28,7 @@ public class JDBCaccountsDAO implements accountsDAO {
 		return accountBalance;
 	}
 
-	@Override
-	public accounts sendMoney() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 		//need method to get account by id
 

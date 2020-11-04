@@ -1,4 +1,4 @@
-package com.techelevator.tenmo.transfers;
+package com.techelevator.application.models;
 
 public class transfers {
 	private int transfer_id;
@@ -9,7 +9,14 @@ public class transfers {
 	private double amount;
 	
 
-	public transfers() {
+	public transfers(int transfer_id, int transfer_type_id, int transfer_status_id, int account_from, int account_to,
+			double amount) {
+		this.transfer_id = transfer_id;
+		this.transfer_type_id = transfer_type_id;
+		this.transfer_status_id = transfer_status_id;
+		this.account_from = account_from;
+		this.account_to = account_to;
+		this.amount = amount;
 	}
 
 
