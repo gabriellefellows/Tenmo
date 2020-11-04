@@ -39,8 +39,8 @@ public class UserSqlDAO implements UserDAO {
         }
 
         return users;
+   
     }
-
     @Override
     public User findByUsername(String username) throws UsernameNotFoundException {
         for (User user : this.findAll()) {

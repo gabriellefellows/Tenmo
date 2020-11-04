@@ -1,6 +1,7 @@
 package com.techelevator.tenmo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -97,13 +98,21 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 	}
 
 	private void sendBucks() {
-		List<User> users = new ArrayList<>();
-		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<User[]> users = apiCall.getForEntity(API_BASE_URL + "users", User[].class);
+		List<User> listAllUsers = Arrays.asList(users.getBody());
+		System.out.println("Listing all users: ---------------------");
+		if(listAllUsers.size() > 0) {
+			for(User listUser : listAllUsers) {
+				System.out.println(listUser.getId() + " - " + listUser.getUsername());
+		}
+		}else {
+			System.out.println("Error");
+		}
+		//two acct objects and a double amount to transfer
+		//@RequestBody 
 		
-		ResponseEntity<User> entity = restTemplate.getForEntity(API_BASE_URL + "users/", User.class);
 		
-		System.out.println(entity.getBody());
-	}
+	} // end of sendMoney
 
 	private void requestBucks() {
 		// TODO Auto-generated method stub
