@@ -16,12 +16,16 @@ public class JDBCaccountsDAO implements accountsDAO {
 	}
 
 	@Override
-	public accounts getAcctBalance() {
-		String sqlGetAcctBalance = "SELECT balance FROM accounts";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetAcctBalance);
+	public accounts getAcctBalanceByID(int user_id) {
+		accounts accountBalance = null;
+		String sqlGetAcctBalance = "SELECT * FROM accounts WHERE user_id = ?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetAcctBalance, user_id);
+			
+		if(results.next()) { // if a row was returned, position to it
+			accountBalance = mapRowToAccounts(results); // and call map row to accounts to convert to an acct
+		}
 		
-		accounts accountBalance = mapRowToAccounts(results);
-		return accountBalance.getBalance();
+		return accountBalance;
 	}
 
 	@Override
@@ -30,6 +34,7 @@ public class JDBCaccountsDAO implements accountsDAO {
 		return null;
 	}
 
+		//need method to get account by id
 
 	private accounts mapRowToAccounts(SqlRowSet results) {
 		accounts account = new accounts();

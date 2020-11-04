@@ -1,4 +1,4 @@
-package com.techelevator.tenmo.accounts;
+package com.techelevator.application.models;
 
 public class accounts {
 	private int account_id;

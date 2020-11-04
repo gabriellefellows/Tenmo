@@ -8,12 +8,7 @@ public class transfers {
 	private int account_to;
 	private double amount;
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-	
-	}
 
-	
 	public transfers(int transfer_id, int transfer_type_id, int transfer_status_id, int account_from, int account_to,
 			double amount) {
 		this.transfer_id = transfer_id;
