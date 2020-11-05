@@ -24,14 +24,10 @@ public class JDBCaccountsDAO implements accountsDAO {
 		if(results.next()) { // if a row was returned, position to it
 			accountBalance = mapRowToAccounts(results); // and call map row to accounts to convert to an acct
 		}
-		
 		return accountBalance;
 	}
 
-	
-
 		//need method to get account by id
-
 	private accounts mapRowToAccounts(SqlRowSet results) {
 		accounts account = new accounts();
 		account.setAccount_id(results.getInt("account_id"));

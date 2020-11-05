@@ -80,10 +80,7 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 	}
 
 	private void viewCurrentBalance() {
-		System.out.println("Enter user ID for balance: ");
-		int balanceChoice = scanner.nextInt();
-		scanner.nextLine(); //clear the keyboard buffer to remove enter
-		accounts account = apiCall.getForObject(API_BASE_URL + "accounts/" + balanceChoice, accounts.class);
+		accounts account = apiCall.getForObject(API_BASE_URL + "accounts/" + currentUser.getUser().getId(), accounts.class);
 		System.out.println("Your current balance is: " + account.getBalance());
 	}
 
