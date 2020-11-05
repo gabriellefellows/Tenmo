@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.techelevator.application.models.accounts;
+import com.techelevator.application.models.transfers;
 import com.techelevator.tenmo.models.AuthenticatedUser;
 import com.techelevator.tenmo.models.User;
 import com.techelevator.tenmo.models.UserCredentials;
@@ -52,9 +53,13 @@ public class App {
 	}
 
 	public void run() {
-		System.out.println("*********************");
-		System.out.println("* Welcome to TEnmo! *");
-		System.out.println("*********************");
+		System.out.println("");
+		System.out.println("             Welcome  to ");
+		System.out.println(" .---. .----..-. .-..-.   .-. .----. \r\n" + 
+							 "{_   _}| {_  |  `| ||  `.'  |/  {}  \\\r\n" + 
+							 "  | |  | {__ | |\\  || |\\ /| |\\      /\r\n" + 
+							 "  `-'  `----'`-' `-'`-' ` `-' `----'  ");
+		
 
 		registerAndLogin();
 		mainMenu();
@@ -89,9 +94,24 @@ public class App {
 	}
 
 	private void viewTransferHistory() {
-		// TODO Auto-generated method stub
-
-	}
+		ResponseEntity<transfers[]> transferList = apiCall.getForEntity(API_BASE_URL + "transfers/", transfers[].class);
+		List<transfers> listAllTransfers = Arrays.asList(transferList.getBody());
+		System.out.println("Listing all transfers: ------------------");
+		if(listAllTransfers.size() > 0) {
+			for (transfers t : listAllTransfers) {
+				System.out.println(t.getTransfer_id() + " " + t.getAccount_from() + " " + t.getAccount_to());
+				}	
+			} else {
+			System.out.println("Error.");
+		}
+		}
+		
+		
+		
+		// get the transferList we made in jdbctransfersDAO
+		// if there is a next line in it, add it to a new list for us
+		// print out that list
+	
 
 	private void viewPendingRequests() {
 		// TODO Auto-generated method stub
@@ -155,7 +175,7 @@ public class App {
 					return;
 				}
 				
-				fromAccount.setBalance(fromAccount.getBalance()-cashToTransfer);
+				fromAccount.setBalance(fromAccount.getBalance() - cashToTransfer);
 				toAccount.setBalance(toAccount.getBalance() + cashToTransfer);
 				
 				apiCall.put(API_BASE_URL + "accounts/" + fromAccount.getAccount_id(), fromAccount);

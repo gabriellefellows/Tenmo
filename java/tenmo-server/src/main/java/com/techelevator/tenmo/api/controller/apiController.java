@@ -32,21 +32,21 @@ public class apiController {
 	public accounts getAcctByID(@PathVariable int user_id) {
 		return jdbcaccounts.getAcctByID(user_id);
 	}
-	
-	 
-	
+
 	@RequestMapping(path="/users", method=RequestMethod.GET)
 	public List<User> getAllUsers() {
 		return jdbcUser.findAll();
 	
 	}
 	
-	@RequestMapping(path="accounts/{user_id}", method=RequestMethod.PUT)
+	@RequestMapping(path="/accounts/{user_id}", method=RequestMethod.PUT)
 	public void updateAcctBalance(@PathVariable int user_id, @RequestBody accounts account) {
 		jdbcaccounts.updateAcctBalance(account);
-		
-		
 	}
 
+	@RequestMapping(path="/transfers", method=RequestMethod.GET)
+	public List<transfers> listAllTransfers(){
+		return jdbcTransfer.viewTransactions();
+	}
 	
 }

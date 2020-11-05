@@ -1,6 +1,8 @@
 package com.techelevator.tenmo.transfers;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -21,6 +23,22 @@ public JDBCtransfersDAO(DataSource dataSource) {
 	this.jdbcTemplate = new JdbcTemplate(dataSource);
 }
 
+public List<transfers> viewTransactions() {
+	List<transfers> transferList = new ArrayList<>();
+	String sql = "SELECT * FROM transfers"
+			+ " WHERE account_from = accounts.user_id OR account_to = accounts.user_id";
+			//+ " JOIN accounts a ON a.account_id = t.account_to"
+			//+ " JOIN users u ON a.user_id = u.user_id";
+			//+ " WHERE u.user_id = ? OR a.user_id = ?";
+			
+	SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+		while(results.next()) {
+			transfers transfer = mapRowToTransfers(results);
+			transferList.add(transfer);
+		}
+		return transferList;
+}
+
 private transfers mapRowToTransfers(SqlRowSet results) {
 	transfers transfer = new transfers();
 	transfer.setTransfer_id(results.getInt("transfer_id"));
@@ -32,10 +50,5 @@ private transfers mapRowToTransfers(SqlRowSet results) {
 	return transfer;
 }
 
-@Override
-public String sendTransfer(int account_from, int account_to, double amount) {
-	// TODO Auto-generated method stub
-	return null;
-}
 
 }
