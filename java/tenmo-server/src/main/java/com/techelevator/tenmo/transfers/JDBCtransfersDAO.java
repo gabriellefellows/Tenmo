@@ -1,5 +1,7 @@
 package com.techelevator.tenmo.transfers;
 
+import java.math.BigDecimal;
+
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -7,32 +9,16 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import com.techelevator.tenmo.accounts.accounts;
+import com.techelevator.tenmo.accounts.accountsDAO;
 
 @Component
 public class JDBCtransfersDAO implements transfersDAO{
 
 private JdbcTemplate jdbcTemplate;
+private accountsDAO accountDAO;
 
 public JDBCtransfersDAO(DataSource dataSource) {
 	this.jdbcTemplate = new JdbcTemplate(dataSource);
-}
-
-@Override
-public transfers seeSentAndReceived() {
-	// TODO Auto-generated method stub
-	return null;
-}
-
-@Override
-public transfers seeTransferDetails() {
-	// TODO Auto-generated method stub
-	return null;
-}
-
-@Override
-public transfers sendMoney() {
-	
-	return null;
 }
 
 private transfers mapRowToTransfers(SqlRowSet results) {
@@ -42,8 +28,14 @@ private transfers mapRowToTransfers(SqlRowSet results) {
 	transfer.setTransfer_status_id(results.getInt("transnfer_status_id"));
 	transfer.setAccount_from(results.getInt("account_from"));
 	transfer.setAccount_to(results.getInt("account_to"));
-	transfer.setAmount(results.getDouble("amount"));
+	transfer.setAmount(results.getBigDecimal("amount"));
 	return transfer;
+}
+
+@Override
+public String sendTransfer(int account_from, int account_to, double amount) {
+	// TODO Auto-generated method stub
+	return null;
 }
 
 }

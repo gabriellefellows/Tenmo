@@ -1,7 +1,10 @@
 package com.techelevator.tenmo.accounts;
 
+import java.math.BigDecimal;
+
 import javax.sql.DataSource;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -16,17 +19,22 @@ public class JDBCaccountsDAO implements accountsDAO {
 	}
 
 	@Override
-	public accounts getAcctBalanceByID(int user_id) {
-		accounts accountBalance = null;
+	public accounts getAcctByID(int user_id) { // use to call balance
+		accounts account = null;
 		String sqlGetAcctBalance = "SELECT * FROM accounts WHERE user_id = ?";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetAcctBalance, user_id);
 			
 		if(results.next()) { // if a row was returned, position to it
-			accountBalance = mapRowToAccounts(results); // and call map row to accounts to convert to an acct
+			account = mapRowToAccounts(results); // and call map row to accounts to convert to an acct
 		}
-		return accountBalance;
+		return account;
 	}
-
+	
+	public void updateAcctBalance(accounts account) {
+		String sql = "UPDATE accounts SET balance =? WHERE account_id = ?";
+		jdbcTemplate.update(sql, account.getBalance(), account.getAccount_id());
+	}
+	
 		//need method to get account by id
 	private accounts mapRowToAccounts(SqlRowSet results) {
 		accounts account = new accounts();
@@ -36,6 +44,7 @@ public class JDBCaccountsDAO implements accountsDAO {
 		return account;
 		
 	}
+
 	
 	
 }
