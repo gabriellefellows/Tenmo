@@ -4,10 +4,12 @@ import java.util.List;
 
 public interface transfersDAO {
 
+
+	public List<transfers> viewTransactionsByFromID(int user_id);
 	
-	public List<transfers> viewTransactions();
+	public void updateTransactions(transfers t);
 	
+	public List<transfers> viewTransactionsByToID(int user_id);
 	
-	
-	
+	public transfers viewTransferDetails(int transfer_id);
 }

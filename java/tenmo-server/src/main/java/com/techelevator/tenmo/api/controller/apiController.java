@@ -32,21 +32,36 @@ public class apiController {
 	public accounts getAcctByID(@PathVariable int user_id) {
 		return jdbcaccounts.getAcctByID(user_id);
 	}
-
-	@RequestMapping(path="/users", method=RequestMethod.GET)
-	public List<User> getAllUsers() {
-		return jdbcUser.findAll();
-	
-	}
 	
 	@RequestMapping(path="/accounts/{user_id}", method=RequestMethod.PUT)
 	public void updateAcctBalance(@PathVariable int user_id, @RequestBody accounts account) {
 		jdbcaccounts.updateAcctBalance(account);
 	}
-
-	@RequestMapping(path="/transfers", method=RequestMethod.GET)
-	public List<transfers> listAllTransfers(){
-		return jdbcTransfer.viewTransactions();
+	
+	@RequestMapping(path="/users", method=RequestMethod.GET)
+	public List<User> getAllUsers() {
+		return jdbcUser.findAll();
 	}
+	
+	@RequestMapping(path="/transfers/{user_id}", method=RequestMethod.GET)
+	public List<transfers> viewTransfersByFromID(@PathVariable int user_id){
+		return jdbcTransfer.viewTransactionsByFromID(user_id);
+	}	
+	@RequestMapping(path="/transfers/user_to/{user_id}", method=RequestMethod.GET)
+	public List<transfers> viewTransactionsByToID(@PathVariable int user_id) {
+		return jdbcTransfer.viewTransactionsByToID(user_id);
+	}
+	
+	@RequestMapping(path="/transfers/details/{transfer_id}", method=RequestMethod.GET)
+	public transfers getTransferById(@PathVariable int transfer_id) {
+		return jdbcTransfer.viewTransferDetails(transfer_id);
+	}
+	
+	@RequestMapping(path="/transfers", method =RequestMethod.PUT)	
+	public void updateTransfers(@RequestBody transfers transfer) {
+		jdbcTransfer.updateTransactions(transfer);
+	}
+	
+	
 	
 }
