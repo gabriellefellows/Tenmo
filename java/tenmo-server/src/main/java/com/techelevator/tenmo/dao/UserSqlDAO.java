@@ -41,6 +41,35 @@ public class UserSqlDAO implements UserDAO {
         return users;
    
     }
+    
+    public User userTo(int account_id) {
+    	User userTo = new User();
+    	String sql = "SELECT u.* FROM transfers t JOIN accounts a ON a.account_id = t.account_to"
+    			+ " JOIN users u ON a.user_id = u.user_id"
+    			+ " WHERE t.account_to =?";
+    	
+    	SqlRowSet results = jdbcTemplate.queryForRowSet(sql, account_id);
+    	while(results.next()) {
+    		userTo = mapRowToUser(results);
+    		
+    	}
+    	return userTo;
+    }
+    
+    public User userFrom(int account_id) {
+    	User userFrom = new User();
+    	String sql = "SELECT u.* FROM transfers t JOIN accounts a ON a.account_id = t.account_from"
+    			+ " JOIN users u ON a.user_id = u.user_id"
+    			+ " WHERE t.account_from =?";
+    	
+    	SqlRowSet results = jdbcTemplate.queryForRowSet(sql, account_id);
+    	while(results.next()) {
+    		userFrom = mapRowToUser(results);
+    		
+    	}
+    	return userFrom;
+    }
+  
     @Override
     public User findByUsername(String username) throws UsernameNotFoundException {
         for (User user : this.findAll()) {
@@ -78,6 +107,16 @@ public class UserSqlDAO implements UserDAO {
         return userCreated && accountCreated;
     }
 
+    public User getUserByID(int user_id) {
+    	String query = "SELECT * FROM users WHERE user_id = ?";
+    	SqlRowSet results = jdbcTemplate.queryForRowSet(query, user_id);
+    	if(results.next()) {
+    		User getUser = mapRowToUser(results);
+    		return getUser;
+    	}
+    	return null;
+    }
+   
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
         user.setId(rs.getLong("user_id"));

@@ -59,7 +59,7 @@ public class JDBCtransfersDAO implements transfersDAO {
 		}
 		return viewTransferDetails;
 	}
-
+	
 	public void updateTransactions(transfers t) {
 		String sql = "INSERT INTO transfers (transfer_type_id, transfer_status_id, account_from, account_to, amount)"
 				+ " VALUES (?, ?, ?, ?, ?)";

@@ -34,8 +34,7 @@ public class JDBCaccountsDAO implements accountsDAO {
 		String sql = "UPDATE accounts SET balance =? WHERE account_id = ?";
 		jdbcTemplate.update(sql, account.getBalance(), account.getAccount_id());
 	}
-	
-		//need method to get account by id
+
 	private accounts mapRowToAccounts(SqlRowSet results) {
 		accounts account = new accounts();
 		account.setAccount_id(results.getInt("account_id"));
@@ -44,7 +43,4 @@ public class JDBCaccountsDAO implements accountsDAO {
 		return account;
 		
 	}
-
-	
-	
 }

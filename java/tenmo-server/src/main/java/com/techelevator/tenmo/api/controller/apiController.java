@@ -32,17 +32,14 @@ public class apiController {
 	public accounts getAcctByID(@PathVariable int user_id) {
 		return jdbcaccounts.getAcctByID(user_id);
 	}
-	
 	@RequestMapping(path="/accounts/{user_id}", method=RequestMethod.PUT)
 	public void updateAcctBalance(@PathVariable int user_id, @RequestBody accounts account) {
 		jdbcaccounts.updateAcctBalance(account);
 	}
-	
 	@RequestMapping(path="/users", method=RequestMethod.GET)
 	public List<User> getAllUsers() {
 		return jdbcUser.findAll();
 	}
-	
 	@RequestMapping(path="/transfers/{user_id}", method=RequestMethod.GET)
 	public List<transfers> viewTransfersByFromID(@PathVariable int user_id){
 		return jdbcTransfer.viewTransactionsByFromID(user_id);
@@ -62,6 +59,10 @@ public class apiController {
 		jdbcTransfer.updateTransactions(transfer);
 	}
 	
+	@RequestMapping(path="/users/{user_id}", method = RequestMethod.GET)
+	public User getUserByID(@PathVariable int user_id) {
+		return jdbcUser.getUserByID(user_id);
+	}
 	
 	
 }
