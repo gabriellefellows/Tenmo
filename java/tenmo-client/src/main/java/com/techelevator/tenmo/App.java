@@ -132,24 +132,33 @@ public class App {
 		if (usersChoice == 2) {
 			System.out.println("Enter the ID of the transfer you want to see details for: ");
 			String userIdChoice = scanner.nextLine();
-			int transfer_id = 0;
-			transfer_id = Integer.parseInt(userIdChoice);
+			int transfer_id =  Integer.parseInt(userIdChoice);
 			
-			// ADD if transfer_id chosen does not exist.... return;
-			// ALSO ADD type name (ex: send) and status name (ex: approved) instead of their
-			// numbers when returned.
+			try {
 			transfers detailsTransfer = apiCall.getForObject(API_BASE_URL + "/transfers/details/" + transfer_id,
-					transfers.class);
+			transfers.class);
+			
 
+			User userNameTo = apiCall.getForObject(API_BASE_URL + "users/account/" + detailsTransfer.getAccount_to(), User.class);
+			User userNameFrom = apiCall.getForObject(API_BASE_URL + "users/account/" + detailsTransfer.getAccount_from(), User.class);
+			
 			System.out.println("Details for transfer " + transfer_id);
 			System.out.println("       ***        ");
 			System.out.println("Transfer ID: " + detailsTransfer.getTransfer_id());
-			System.out.println("Account to: " + detailsTransfer.getAccount_to());
-			System.out.println("Account from: " + detailsTransfer.getAccount_from());
-			System.out.println("Transfer type ID: " + detailsTransfer.getTransfer_type_id());
-			System.out.println("Transfer status ID: " + detailsTransfer.getTransfer_status_id());
+			System.out.println("Account to: " + userNameTo.getUsername());
+			System.out.println("Account from: " + userNameFrom.getUsername());
+			if(detailsTransfer.getTransfer_type_id() == 1) {
+			System.out.println("Transfer type ID: " + "Received");
+			} else if (detailsTransfer.getTransfer_type_id() == 2) {
+			System.out.println("Transfer type ID: " + "Sent");
+			}
+			System.out.println("Transfer status ID:  Success");
 			System.out.println("Amount: " + detailsTransfer.getAmount());
-
+		}
+		catch (NullPointerException ex) {
+			System.out.println("Null Pointer Exception - transfer ID does not exist. Try again.");
+			return;
+		}
 		} else if (usersChoice != 1 || usersChoice != 2) {
 			return;
 		}
@@ -182,7 +191,6 @@ public class App {
 		} else {
 			System.out.println("Error");
 		}
-		
 		
 		System.out.println("Please enter the id of the user you want to send money to: ");
 		String userChoice = scanner.nextLine();

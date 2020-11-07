@@ -64,5 +64,8 @@ public class apiController {
 		return jdbcUser.getUserByID(user_id);
 	}
 	
-	
+	@RequestMapping(path="/users/account/{account_id}", method=RequestMethod.GET)
+	public User getUserByAcctID(@PathVariable int account_id) {
+		return jdbcUser.getUserByAccountID(account_id);
+	}
 }
