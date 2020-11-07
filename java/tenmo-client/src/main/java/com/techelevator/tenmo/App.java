@@ -101,7 +101,7 @@ public class App {
 				ResponseEntity<transfers[]> transferListFrom = apiCall
 						.getForEntity(API_BASE_URL + "transfers/" + currentUser.getUser().getId(), transfers[].class);
 				List<transfers> listAllTransfersFrom = Arrays.asList(transferListFrom.getBody());
-				
+
 				ResponseEntity<transfers[]> transferListTo = apiCall.getForEntity(
 						API_BASE_URL + "transfers/user_to/" + currentUser.getUser().getId(), transfers[].class);
 				List<transfers> listAllTransfersTo = Arrays.asList(transferListTo.getBody());
@@ -132,33 +132,33 @@ public class App {
 		if (usersChoice == 2) {
 			System.out.println("Enter the ID of the transfer you want to see details for: ");
 			String userIdChoice = scanner.nextLine();
-			int transfer_id =  Integer.parseInt(userIdChoice);
-			
-			try {
-			transfers detailsTransfer = apiCall.getForObject(API_BASE_URL + "/transfers/details/" + transfer_id,
-			transfers.class);
-			
+			int transfer_id = Integer.parseInt(userIdChoice);
 
-			User userNameTo = apiCall.getForObject(API_BASE_URL + "users/account/" + detailsTransfer.getAccount_to(), User.class);
-			User userNameFrom = apiCall.getForObject(API_BASE_URL + "users/account/" + detailsTransfer.getAccount_from(), User.class);
-			
-			System.out.println("Details for transfer " + transfer_id);
-			System.out.println("       ***        ");
-			System.out.println("Transfer ID: " + detailsTransfer.getTransfer_id());
-			System.out.println("Account to: " + userNameTo.getUsername());
-			System.out.println("Account from: " + userNameFrom.getUsername());
-			if(detailsTransfer.getTransfer_type_id() == 1) {
-			System.out.println("Transfer type ID: " + "Received");
-			} else if (detailsTransfer.getTransfer_type_id() == 2) {
-			System.out.println("Transfer type ID: " + "Sent");
+			try {
+				transfers detailsTransfer = apiCall.getForObject(API_BASE_URL + "/transfers/details/" + transfer_id,
+						transfers.class);
+
+				User userNameTo = apiCall
+						.getForObject(API_BASE_URL + "users/account/" + detailsTransfer.getAccount_to(), User.class);
+				User userNameFrom = apiCall
+						.getForObject(API_BASE_URL + "users/account/" + detailsTransfer.getAccount_from(), User.class);
+
+				System.out.println("Details for transfer " + transfer_id);
+				System.out.println("       ***        ");
+				System.out.println("Transfer ID: " + detailsTransfer.getTransfer_id());
+				System.out.println("Account to: " + userNameTo.getUsername());
+				System.out.println("Account from: " + userNameFrom.getUsername());
+				if (detailsTransfer.getTransfer_type_id() == 1) {
+					System.out.println("Transfer type ID: " + "Received");
+				} else if (detailsTransfer.getTransfer_type_id() == 2) {
+					System.out.println("Transfer type ID: " + "Sent");
+				}
+				System.out.println("Transfer status ID:  Success");
+				System.out.println("Amount: " + detailsTransfer.getAmount());
+			} catch (NullPointerException ex) {
+				System.out.println("Null Pointer Exception - transfer ID does not exist. Try again.");
+				return;
 			}
-			System.out.println("Transfer status ID:  Success");
-			System.out.println("Amount: " + detailsTransfer.getAmount());
-		}
-		catch (NullPointerException ex) {
-			System.out.println("Null Pointer Exception - transfer ID does not exist. Try again.");
-			return;
-		}
 		} else if (usersChoice != 1 || usersChoice != 2) {
 			return;
 		}
@@ -191,7 +191,7 @@ public class App {
 		} else {
 			System.out.println("Error");
 		}
-		
+
 		System.out.println("Please enter the id of the user you want to send money to: ");
 		String userChoice = scanner.nextLine();
 
@@ -254,8 +254,7 @@ public class App {
 				System.out.println("Your current balance is " + fromAccount.getBalance());
 			}
 		}
-
-	} 
+	}
 
 	private void exitProgram() {
 		System.exit(0);
@@ -312,10 +311,10 @@ public class App {
 		String password = console.getUserInput("Password");
 		return new UserCredentials(username, password);
 	}
-	
+
 	private void requestBucks() {
 	}
-	
+
 	private boolean isAuthenticated() {
 		return currentUser != null;
 	}
